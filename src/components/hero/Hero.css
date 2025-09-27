@@ -1,0 +1,44 @@
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #0a7a7a, #2bbdbd);
+  color: white;
+}
+
+.hero-text {
+  max-width: 50%;
+}
+
+.hero-text h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.hero-text span {
+  color: #ff7043; /* naranja para resaltar "veterinaria" */
+}
+
+.hero-text p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.btn-hero {
+  background: #ff7043;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.btn-hero:hover {
+  background: #e95b2c;
+}
+
+.hero-img img {
+  max-width: 350px;
+}
