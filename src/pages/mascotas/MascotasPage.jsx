@@ -18,7 +18,6 @@ const MascotasPage = () => {
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'info' });
   const apiUrl = import.meta.env.VITE_URL_BACKEND;
 
-  // Custom hook para búsqueda
   const { searchTerm, filteredData: filteredMascotas, handleSearch } = useSearch(mascotas, 'nombre');
 
   const showNotification = (message, severity = 'info') => {

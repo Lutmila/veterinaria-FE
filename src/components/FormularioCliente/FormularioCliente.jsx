@@ -20,7 +20,6 @@ const FormularioCliente = ({ open, onClose, onSubmit, loading = false, clienteDa
   
   const [errors, setErrors] = useState({});
 
-  // Llenar el formulario si es edición
   useEffect(() => {
     if (clienteData) {
       setFormData({
@@ -38,7 +37,6 @@ const FormularioCliente = ({ open, onClose, onSubmit, loading = false, clienteDa
     setErrors({});
   }, [clienteData, open]);
 
-  // Llenar el formulario si es edición
   useEffect(() => {
     if (clienteData) {
       setFormData({
@@ -56,7 +54,6 @@ const FormularioCliente = ({ open, onClose, onSubmit, loading = false, clienteDa
     setErrors({});
   }, [clienteData, open]);
 
-  // Manejar cambios en los inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -64,7 +61,6 @@ const FormularioCliente = ({ open, onClose, onSubmit, loading = false, clienteDa
       [name]: value
     }));
     
-    // Limpiar error cuando el usuario empiece a escribir
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -73,7 +69,6 @@ const FormularioCliente = ({ open, onClose, onSubmit, loading = false, clienteDa
     }
   };
 
-  // Validar formulario
   const validateForm = () => {
     const newErrors = {};
 
@@ -95,7 +90,6 @@ const FormularioCliente = ({ open, onClose, onSubmit, loading = false, clienteDa
     return Object.keys(newErrors).length === 0;
   };
 
-  // Manejar envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -104,7 +98,6 @@ const FormularioCliente = ({ open, onClose, onSubmit, loading = false, clienteDa
     }
   };
 
-  // Limpiar formulario al cerrar
   const handleClose = () => {
     setFormData({
       nombre: '',

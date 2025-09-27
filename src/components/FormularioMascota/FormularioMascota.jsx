@@ -47,7 +47,6 @@ const FormularioMascota = ({ open, onClose, onSubmit, loading, mascotaData = nul
     }
   }, [open, apiUrl]);
 
-  // Llenar el formulario si es edición
   useEffect(() => {
     if (mascotaData) {
       setFormData({
@@ -76,7 +75,6 @@ const FormularioMascota = ({ open, onClose, onSubmit, loading, mascotaData = nul
       [name]: value
     }));
     
-    // Limpiar error del campo cuando el usuario empieza a escribir
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
