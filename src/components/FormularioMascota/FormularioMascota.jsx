@@ -14,38 +14,13 @@ import {
   Box
 } from '@mui/material';
 import './FormularioMascota.css';
+import { initialValues, validateForm } from './utils';
+import useClientes from '../../hooks/useClientes.jsx';
 
 const FormularioMascota = ({ open, onClose, onSubmit, loading, mascotaData = null }) => {
-  const [formData, setFormData] = useState({
-    nombre: '',
-    especie: '',
-    raza: '',
-    edad: '',
-    cliente_id: ''
-  });
-  const [clientes, setClientes] = useState([]);
-  const [loadingClientes, setLoadingClientes] = useState(false);
+  const [formData, setFormData] = useState(initialValues);
   const [errors, setErrors] = useState({});
-  const apiUrl = import.meta.env.VITE_URL_BACKEND;
-
-  // Cargar clientes al abrir el formulario
-  useEffect(() => {
-    if (open) {
-      const fetchClientes = async () => {
-        setLoadingClientes(true);
-        try {
-          const response = await fetch(`${apiUrl}/clientes`);
-          const data = await response.json();
-          setClientes(data);
-        } catch (error) {
-          console.error('Error fetching clientes:', error);
-        } finally {
-          setLoadingClientes(false);
-        }
-      };
-      fetchClientes();
-    }
-  }, [open, apiUrl]);
+  const { clientes, loadingClientes } = useClientes();
 
   useEffect(() => {
     if (mascotaData) {
@@ -57,13 +32,7 @@ const FormularioMascota = ({ open, onClose, onSubmit, loading, mascotaData = nul
         cliente_id: mascotaData.cliente_id?._id || mascotaData.cliente_id || ''
       });
     } else {
-      setFormData({
-        nombre: '',
-        especie: '',
-        raza: '',
-        edad: '',
-        cliente_id: ''
-      });
+      setFormData(initialValues);
     }
     setErrors({});
   }, [mascotaData, open]);
@@ -83,39 +52,10 @@ const FormularioMascota = ({ open, onClose, onSubmit, loading, mascotaData = nul
     }
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (!formData.nombre.trim()) {
-      newErrors.nombre = 'El nombre es obligatorio';
-    }
-
-    if (!formData.especie.trim()) {
-      newErrors.especie = 'La especie es obligatoria';
-    }
-
-    if (!formData.raza.trim()) {
-      newErrors.raza = 'La raza es obligatoria';
-    }
-
-    if (!formData.edad) {
-      newErrors.edad = 'La edad es obligatoria';
-    } else if (isNaN(formData.edad) || formData.edad < 0) {
-      newErrors.edad = 'La edad debe ser un número válido';
-    }
-
-    if (!formData.cliente_id) {
-      newErrors.cliente_id = 'Debe seleccionar un cliente';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (validateForm()) {
+    if (validateForm( formData, setErrors )) {
       const submitData = {
         ...formData,
         edad: parseInt(formData.edad)

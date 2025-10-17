@@ -66,6 +66,7 @@
   width: 32px;
   height: 32px;
   text-decoration: none;
+  transition: background 0.3s;
 }
 
 .social-links a:hover {

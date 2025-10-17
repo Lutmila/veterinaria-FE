@@ -7,16 +7,13 @@ import {
   TextField, 
   Button, 
   Box,
-  CircularProgress 
 } from '@mui/material';
 import './FormularioCliente.css';
+import { validateForm } from './utils';
+import { initialValues } from './utils';
 
 const FormularioCliente = ({ open, onClose, onSubmit, loading = false, clienteData = null }) => {
-  const [formData, setFormData] = useState({
-    nombre: '',
-    telefono: '',
-    email: ''
-  });
+  const [formData, setFormData] = useState(initialValues);
   
   const [errors, setErrors] = useState({});
 
@@ -28,28 +25,7 @@ const FormularioCliente = ({ open, onClose, onSubmit, loading = false, clienteDa
         email: clienteData.email || ''
       });
     } else {
-      setFormData({
-        nombre: '',
-        telefono: '',
-        email: ''
-      });
-    }
-    setErrors({});
-  }, [clienteData, open]);
-
-  useEffect(() => {
-    if (clienteData) {
-      setFormData({
-        nombre: clienteData.nombre || '',
-        telefono: clienteData.telefono || '',
-        email: clienteData.email || ''
-      });
-    } else {
-      setFormData({
-        nombre: '',
-        telefono: '',
-        email: ''
-      });
+      setFormData(initialValues);
     }
     setErrors({});
   }, [clienteData, open]);
@@ -69,31 +45,10 @@ const FormularioCliente = ({ open, onClose, onSubmit, loading = false, clienteDa
     }
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (!formData.nombre.trim()) {
-      newErrors.nombre = 'El nombre es obligatorio';
-    }
-
-    if (!formData.telefono.trim()) {
-      newErrors.telefono = 'El teléfono es obligatorio';
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = 'El email es obligatorio';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Ingresa un email válido';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (validateForm()) {
+    if (validateForm(formData, setErrors)) {
       onSubmit(formData);
     }
   };

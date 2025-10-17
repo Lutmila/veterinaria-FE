@@ -34,6 +34,34 @@
   font-weight: 600;
 }
 
+.desktop-nav {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.mobile-menu-button {
+  display: none !important;
+}
+
+.mobile-drawer {
+  display: none !important;
+}
+
+@media (max-width: 620px) {
+  .desktop-nav {
+    display: none !important;
+  }
+  
+  .mobile-menu-button {
+    display: flex !important;
+  }
+  
+  .mobile-drawer {
+    display: block !important;
+  }
+}
+
 @media (max-width: 768px) {
   .nav-brand {
     font-size: 1.2rem;
