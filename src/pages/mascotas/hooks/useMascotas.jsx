@@ -79,7 +79,6 @@ export const useMascotas = () => {
             if (response.ok) {
                 const mascotaResponse = await response.json();
                 
-                // Enriquecemos la mascota con los datos completos del cliente
                 const mascotaEnriquecida = await MascotasConClientes(mascotaResponse, clientesData);
 
                 if (isEditing) {

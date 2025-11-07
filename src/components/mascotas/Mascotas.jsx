@@ -28,12 +28,10 @@ const Mascotas = () => {
 
 
   const handleEdit = (mascota) => {
-    console.log('Editar mascota:', mascota);
     alert(`Editar mascota: ${mascota.nombre}`);
   };
 
   const handleDelete = (mascota) => {
-    console.log('Eliminar mascota:', mascota);
     if (window.confirm(`¿Estás seguro que deseas eliminar a ${mascota.nombre}?`)) {
       alert(`Eliminando mascota: ${mascota.nombre}`);
     }
