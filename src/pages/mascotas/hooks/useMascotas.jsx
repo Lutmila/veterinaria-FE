@@ -29,7 +29,36 @@ export const useMascotas = () => {
     }, []);
 
 
-    const handleSubmitForm = async (formData) => {
+    const MascotasConClientes = async (mascota, clientesData) => {
+        if (!mascota.cliente_id) return mascota;
+
+        const clienteId = typeof mascota.cliente_id === 'string' 
+            ? mascota.cliente_id 
+            : mascota.cliente_id._id;
+
+        if (clientesData) {
+            const clienteCompleto = clientesData.find(c => c._id === clienteId);
+            if (clienteCompleto) {
+                return { ...mascota, cliente_id: clienteCompleto };
+            }
+        }
+
+        if (typeof mascota.cliente_id === 'string') {
+            try {
+                const clienteResponse = await fetch(`${apiUrl}/clientes/${mascota.cliente_id}`);
+                if (clienteResponse.ok) {
+                    const clienteData = await clienteResponse.json();
+                    return { ...mascota, cliente_id: clienteData };
+                }
+            } catch (error) {
+                console.error('Error fetching cliente data:', error);
+            }
+        }
+
+        return mascota;
+    };
+
+    const handleSubmitForm = async (formData, clientesData = null) => {
         setFormLoading(true);
         try {
             const isEditing = Boolean(editingMascota);
@@ -49,16 +78,19 @@ export const useMascotas = () => {
 
             if (response.ok) {
                 const mascotaResponse = await response.json();
+                
+                // Enriquecemos la mascota con los datos completos del cliente
+                const mascotaEnriquecida = await MascotasConClientes(mascotaResponse, clientesData);
 
                 if (isEditing) {
                     setMascotas(prevMascotas =>
                         prevMascotas.map(m =>
-                            m._id === editingMascota._id ? mascotaResponse : m
+                            m._id === editingMascota._id ? mascotaEnriquecida : m
                         )
                     );
                     showAlert('Mascota actualizada exitosamente', 'success');
                 } else {
-                    setMascotas(prevMascotas => [...prevMascotas, mascotaResponse]);
+                    setMascotas(prevMascotas => [...prevMascotas, mascotaEnriquecida]);
                     showAlert('Mascota registrada exitosamente', 'success');
                 }
 

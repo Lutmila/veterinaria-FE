@@ -60,7 +60,7 @@ const FormularioMascota = ({ open, onClose, onSubmit, loading, mascotaData = nul
         ...formData,
         edad: parseInt(formData.edad)
       };
-      onSubmit(submitData);
+      onSubmit(submitData, clientes);
     }
   };
 
